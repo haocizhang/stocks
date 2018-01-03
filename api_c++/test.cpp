@@ -195,6 +195,10 @@ int buy(string company_code, int volume) {
 			+ inttostring(volume) + "," + doubletostring(stock_price) + ","
 			+ doubletostring(stock_price * volume) + ",1);";
 		stmt->execute(sql);
+		vector<string> params;
+		params.push_back(company_code);
+		params.push_back(inttostring(volume));
+		//execute_python_file(result, "../api_python/buy.py", params);
 		delete res;
 		delete stmt;
 		delete con;
@@ -230,7 +234,11 @@ int sell(std::string company_code, int volume) {
 				delete con;
 				return 1;			
 			}
-			//sell
+			string &result;
+			vector<string> params;
+			params.push_back(company_code);
+			params.push_back(inttostring(volume));
+			//execute_python_file(result, "../api_python/sell.py", params);
 			sql = "DELETE FROM portfolio WHERE company_code = '" + company_code + "';";
 			stmt->execute(sql);
 			if (v - volume > 0) {
